@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha - Teste</title>
+    <style>
+        #jogo{
+            width: 160px;
+            height: 160px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+        }
+
+        .posicaoJogo{
+            width: 50px;
+            height: 50px;
+            margin: 0px;
+            padding: 0px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+        }
+
+        #p1{
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        #p2{
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        #p3{
+            border-bottom: 1px solid #000;
+        }
+
+        #p4{
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        #p5{
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        #p6{
+            border-bottom: 1px solid #000;
+        }
+
+        #p7{
+            border-right: 1px solid #000;
+        }
+
+        #p8{
+            border-right: 1px solid #000;
+        }
+
+    </style>
+    <script>
+        
+        let jogo = [];
+        let tabuleiro = [];
+        let player = 0// 0 - jogador 1 - cpu
+        let verifica;
+        let jogando = true;
+        let nivel = 2;
+        let jogadaCpu = 1;
+        let quemComeça = 1;
+        let jogada = 0;
+
+        function cpuJoga(){
+            if(jogando){
+                let lin, col;
+                if(nivel == 1){
+                    do{
+                        lin = Math.round(Math.random()*2);
+                        col = Math.round(Math.random()*2);
+                    }while(jogo[lin][col] != "");
+                    jogo[lin][col] = "O";
+
+                }else if(nivel == 2){
+                  //JOGADA - LINHA 1
+                  if((jogo[0][0] == "") && (jogo[0][1] == "O") && (jogo[0][2] == "O")){
+                      jogo[0][0] = "O";
+                  }
+                  else if((jogo[0][0] == "O") && (jogo[0][1] == "") && (jogo[0][2] == "O")){
+                      jogo[0][1] = "O";
+                  }
+                  else if((jogo[0][0] == "O") && (jogo[0][1] == "O") && (jogo[0][2] == "")){
+                      jogo[0][2] = "O";
+                  }else
+                  //JOGADA - LINHA 2
+                  if((jogo[1][0] == "") && (jogo[1][1] == "O") && (jogo[1][2] == "O")){
+                      jogo[1][0] = "O";
+                  }
+                  else if((jogo[1][0] == "O") && (jogo[1][1] == "") && (jogo[1][2] == "O")){
+                      jogo[1][1] = "O";
+                  }
+                  else if((jogo[1][0] == "O") && (jogo[1][1] == "O") && (jogo[1][2] == "")){
+                      jogo[1][2] = "O";
+                  }else
+                  //JOGADA - LINHA 3
+                  if((jogo[2][0] == "") && (jogo[2][1] == "O") && (jogo[2][2] == "O")){
+                    jogo[2][0] = "O";
+                  }
+                  else if((jogo[2][0] == "O") && (jogo[2][1] == "") && (jogo[2][2] == "O")){
+                    jogo[2][1] = "O";
+                  }
+                  else if((jogo[2][0] == "O") && (jogo[2][1] == "O") && (jogo[2][2] == "")){
+                    jogo[2][2] = "O";
+                  }else
+                  //JOGADA - DIAGONAL PRIMÁRIA
+                  if((jogo[0][0] == "") && (jogo[1][1] == "O") && (jogo[2][2] == "O")){
+                      jogo[0][0] = "O";
+                  }else if((jogo[0][0] == "O") && (jogo[1][1] == "") && (jogo[2][2] == "O")){
+                      jogo[1][1] = "O";
+                  }else if((jogo[0][0] == "O") && (jogo[1][1] == "O") && (jogo[2][2] == "")){
+                      jogo[2][2] = "O";
+                  }else
+                  //JOGADA - DIAGONAL SECUNDÁRIA
+                  if((jogo[0][2] == "") && (jogo[1][1] == "O") && (jogo[2][0] == "O")){
+                      jogo[0][2] = "O";
+                  }else if((jogo[0][2] == "O") && (jogo[1][1] == "") && (jogo[2][0] == "O")){
+                      jogo[1][1] = "O";
+                  }else if((jogo[0][2] == "O") && (jogo[1][1] == "O") && (jogo[2][0] == "")){
+                      jogo[2][0] = "O";
+                  }else
+                  //DEFESA - LINHA 1 
+                  if((jogo[0][0] == "") && (jogo[0][1] == "X") && (jogo[0][2] == "X")){
+                      jogo[0][0] = "O";
+                  }
+                  else if((jogo[0][0] == "X") && (jogo[0][1] == "") && (jogo[0][2] == "X")){
+                      jogo[0][1] = "O";
+                  }
+                  else if((jogo[0][0] == "X") && (jogo[0][1] == "X") && (jogo[0][2] == "")){
+                      jogo[0][2] = "O";
+                  }else
+                  //DEFESA - LINHA 2
+                  if((jogo[1][0] == "") && (jogo[1][1] == "X") && (jogo[1][2] == "X")){
+                      jogo[1][0] = "O";
+                  }
+                  else if((jogo[1][0] == "X") && (jogo[1][1] == "") && (jogo[1][2] == "X")){
+                      jogo[1][1] = "O";
+                  }
+                  else if((jogo[1][0] == "X") && (jogo[1][1] == "X") && (jogo[1][2] == "")){
+                      jogo[1][2] = "O";
+                  }else
+                  //DEFESA - LINHA 3
+                  if((jogo[2][0] == "") && (jogo[2][1] == "X") && (jogo[2][2] == "X")){
+                    jogo[2][0] = "O";
+                  }
+                  else if((jogo[2][0] == "X") && (jogo[2][1] == "") && (jogo[2][2] == "X")){
+                    jogo[2][1] = "O";
+                  }
+                  else if((jogo[2][0] == "X") && (jogo[2][1] == "X") && (jogo[2][2] == "")){
+                    jogo[2][2] = "O";
+                  }else
+                  //DEFESA - DIAGONAL PRIMÁRIA
+                  if((jogo[0][0] == "") && (jogo[1][1] == "X") && (jogo[2][2] == "X")){
+                      jogo[0][0] = "O";
+                  }else if((jogo[0][0] == "X") && (jogo[1][1] == "") && (jogo[2][2] == "X")){
+                      jogo[1][1] = "O";
+                  }else if((jogo[0][0] == "X") && (jogo[1][1] == "X") && (jogo[2][2] == "")){
+                      jogo[2][2] = "O";
+                  }else
+                  //DEFESA - DIAGONAL SECUNDÁRIA
+                  if((jogo[0][2] == "") && (jogo[1][1] == "X") && (jogo[2][0] == "X")){
+                      jogo[0][2] = "O";
+                  }else if((jogo[0][2] == "X") && (jogo[1][1] == "") && (jogo[2][0] == "X")){
+                      jogo[1][1] = "O";
+                  }else if((jogo[0][2] == "X") && (jogo[1][1] == "X") && (jogo[2][0] == "")){
+                      jogo[2][0] = "O";
+                  }else{
+                      if(jogada < 8){
+                          do{
+                              lin = Math.round(Math.random()*2);
+                              col = Math.round(Math.random()*2);
+                          }while(jogo[lin][col] != "");
+                          jogo[lin][col] = "O";
+                    }else{
+                        for(let lin = 0; lin < 3; lin++){
+                            for(let col = 0; col < 3; col++){
+                                if(jogo[lin][col] == ""){
+                                    jogo[lin][col] == "O";
+                                }
+                            }
+                         }
+                        }
+                    }
+                }
+                verifica = verificaVitoria();
+                if(verifica != ""){
+                    alert(verifica + " venceu");
+                    jogando = false;
+                }
+
+                atualizaTabuleiro();
+                jogada++;
+                player = 0;
+            }
+        }
+
+        function verificaVitoria(){
+            let lin, col;
+            //LINHAS
+            for(lin = 0; lin < 3; lin++){
+                if((jogo[lin][0] == jogo[lin][1]) && (jogo[lin][1] == jogo[lin][2])){
+                    return jogo[lin][0];
+                }
+            }
+
+            //COLUNAS
+            for(col = 0; col < 3; col++){
+                if((jogo[0][col] == jogo[1][col]) && (jogo[1][col] == jogo[2][col])){
+                    return jogo[0][col];
+                }
+            }
+
+            //DIAGONAIS - PRIMÁRIA
+            if((jogo[0][0] == jogo[1][1] && jogo[1][1] == jogo[2][2])){
+                return jogo[0][0];
+            }
+
+            //DIAGONAIS - SECUNDÁRIA
+            if((jogo[0][2] == jogo[1][1]) && jogo[1][1] == jogo[2][0]){
+                return jogo[1][1];
+            }   
+            return "";
+        }
+
+        function jogar(p){
+            if(jogando && player == 0){
+                switch(p){
+                    case 1:
+                        if(jogo[0][0] == ""){
+                            jogo[0][0] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    case 2:
+                        if(jogo[0][1] == ""){
+                            jogo[0][1] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    case 3:
+                        if(jogo[0][2] == ""){
+                            jogo[0][2] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    case 4:
+                        if(jogo[1][0] == ""){
+                            jogo[1][0] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    case 5:
+                        if(jogo[1][1] == ""){
+                            jogo[1][1] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    case 6:
+                        if(jogo[1][2] == ""){
+                            jogo[1][2] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    case 7: 
+                        if(jogo[2][0] == ""){
+                            jogo[2][0] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    case 8:
+                        if(jogo[2][1] == ""){
+                            jogo[2][1] = "X";
+                            player = 1;
+                        }
+                        break;
+
+                    default: //CASE 9 
+                        if(jogo[2][2] == ""){
+                            jogo[2][2] = "X";
+                            player = 1;
+                        }
+                        break;
+                }
+                if(player == 1){
+                    atualizaTabuleiro();
+                    verifica = verificaVitoria();
+                    if(verifica != ""){
+                        alert(verifica + " venceu");
+                        jogando = false;
+                    }
+                    jogada++;
+                    cpuJoga();
+                }
+            }
+        }
+
+        function empate(){
+            if(verificaVitoria() == ""){
+                atualizaTabuleiro();
+                verifica = verificaVitoria();
+                alert("Ninguém ganhou!");
+                jogando = false;
+            }
+        }
+
+        function atualizaTabuleiro(){
+            
+            for(let lin = 0; lin < 3; lin++){
+                for(let col = 0; col < 3; col++){
+                    if(jogo[lin][col] == "X"){
+                        tabuleiro[lin][col].innerHTML = "X";
+                        tabuleiro[lin][col].style.cursor = "default";
+                    }else if(jogo[lin][col] == "O"){
+                        tabuleiro[lin][col].innerHTML = "O";
+                        tabuleiro[lin][col].style.cursor = "default";
+                    }else{
+                        tabuleiro[lin][col].innerHTML = "";
+                        tabuleiro[lin][col].style.cursor = "pointer";
+                    }
+                }
+            }
+        }
+
+        function iniciar(){
+            jogando = true;
+            jogadaCpu = 1;
+            jogada = 0;
+            jogo = [
+                   ["","",""],
+                   ["","",""],
+                   ["","",""]
+                ];
+            tabuleiro = [
+                   [document.getElementById("p1"), document.getElementById("p2"), document.getElementById("p3")],
+                   [document.getElementById("p4"), document.getElementById("p5"), document.getElementById("p6")],
+                   [document.getElementById("p7"), document.getElementById("p8"), document.getElementById("p9")]
+                ];
+                atualizaTabuleiro();
+                if(quemComeça == 1){
+                    quemComeça = 0;
+                    player = quemComeça;
+                    document.getElementById("começar").innerHTML = "Quem começa: Jogador";
+                }else{
+                    quemComeça = 1;
+                    player = quemComeça;
+                    document.getElementById("começar").innerHTML = "Quem começa: CPU";
+                    cpuJoga();
+                }
+        }
+
+        window.addEventListener("load", iniciar);
+
+    </script>
+</head>
+<body>
+    <div id="menu">
+        <div id="começar">Quem Joga:</div>
+            <button onclick="iniciar()">Iniciar</button>
+    </div>
+    <div id="jogo"> 
+        <div id="p1" class="posicaoJogo" onclick="jogar(1)"></div>
+        <div id="p2" class="posicaoJogo" onclick="jogar(2)"></div>
+        <div id="p3" class="posicaoJogo" onclick="jogar(3)"></div>
+        <div id="p4" class="posicaoJogo" onclick="jogar(4)"></div>
+        <div id="p5" class="posicaoJogo" onclick="jogar(5)"></div>
+        <div id="p6" class="posicaoJogo" onclick="jogar(6)"></div>
+        <div id="p7" class="posicaoJogo" onclick="jogar(7)"></div>
+        <div id="p8" class="posicaoJogo" onclick="jogar(8)"></div>
+        <div id="p9" class="posicaoJogo" onclick="jogar(9)"></div>
+    </div>
+</body>
+</html>
